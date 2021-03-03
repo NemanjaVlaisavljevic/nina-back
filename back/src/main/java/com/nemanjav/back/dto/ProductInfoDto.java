@@ -1,5 +1,6 @@
 package com.nemanjav.back.dto;
 
+import com.nemanjav.back.entity.ProductIcon;
 import com.nemanjav.back.entity.ProductSizeStock;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class ProductInfoDto {
     //@Min(0)
     private Integer productStock;
 
-    private String productIcon;
+    private Set<ProductIcon> productIcons;
 
     private String productDescription;
 

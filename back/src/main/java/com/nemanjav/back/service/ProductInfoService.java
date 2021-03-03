@@ -1,12 +1,14 @@
 package com.nemanjav.back.service;
 
 import com.nemanjav.back.dto.ProductInfoDto;
+import com.nemanjav.back.entity.ProductIcon;
 import com.nemanjav.back.entity.ProductInfo;
 import com.nemanjav.back.entity.ProductSizeStock;
 import com.nemanjav.back.enums.ProductSize;
 import com.nemanjav.back.enums.ProductStatusEnum;
 import com.nemanjav.back.enums.ResultEnum;
 import com.nemanjav.back.exception.MyException;
+import com.nemanjav.back.repository.ProductIconRepository;
 import com.nemanjav.back.repository.ProductInfoRepository;
 import com.nemanjav.back.repository.ProductSizeStockRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +24,9 @@ import java.io.IOException;
 public class ProductInfoService {
 
     private final ProductInfoRepository productInfoRepository;
-
     private final CategoryService categoryService;
-
     private final ProductSizeStockRepository productSizeStockRepository;
+    private final ProductIconRepository productIconRepository;
 
     public ProductInfo findOne(Long productId) {
         ProductInfo existingProduct = productInfoRepository.findByProductId(productId);
@@ -156,8 +157,10 @@ public class ProductInfoService {
                     productSizeStockRepository.deleteProductSize(productInfo.getProductId());
                 }
             }
-            if (productInfoDto.getProductIcon() != null) {
-                productInfo.setProductIcon(productInfoDto.getProductIcon());
+            if(!productInfo.getProductIcons().isEmpty()){
+                for(ProductIcon productIcon : productInfo.getProductIcons()){
+                    productIconRepository.deleteProductIcon(productInfo.getProductId());
+                }
             }
             if (productInfoDto.getCategoryType() != null) {
                 productInfo.setCategoryType(productInfoDto.getCategoryType());
@@ -173,7 +176,18 @@ public class ProductInfoService {
             }
             if (productInfoDto.getProductStatus() != null) {
                 productInfo.setProductStatus(productInfoDto.getProductStatus());
+            }else{
+                productInfo.setProductStatus(0);
             }
+
+            if(!productInfoDto.getProductIcons().isEmpty()){
+                for(ProductIcon productIcon : productInfoDto.getProductIcons()){
+                    productIcon.setProductInfo(productInfo);
+                    productInfo.getProductIcons().add(productIcon);
+                    productIconRepository.save(productIcon);
+                }
+            }
+
             if (!productInfoDto.getProductSizes().isEmpty()) {
                 for (ProductSizeStock productSizeStock : productInfoDto.getProductSizes()) {
                     productSizeStock.setProductInfo(productInfo);
@@ -184,8 +198,17 @@ public class ProductInfoService {
                 productInfo.setProductStock(productStockSum);
             }
         } else {
-            if (productInfoDto.getProductIcon() != null) {
-                productInfo.setProductIcon(productInfoDto.getProductIcon());
+            if(!productInfo.getProductIcons().isEmpty()){
+                for(ProductIcon productIcon : productInfo.getProductIcons()){
+                    productIconRepository.deleteProductIcon(productInfo.getProductId());
+                }
+            }
+            if(!productInfoDto.getProductIcons().isEmpty()){
+                for(ProductIcon productIcon : productInfoDto.getProductIcons()){
+                    productIcon.setProductInfo(productInfo);
+                    productInfo.getProductIcons().add(productIcon);
+                    productIconRepository.save(productIcon);
+                }
             }
             if (productInfoDto.getProductStock() != null) {
                 productInfo.setProductStock(productInfoDto.getProductStock());
@@ -204,10 +227,12 @@ public class ProductInfoService {
             }
             if (productInfoDto.getProductStatus() != null) {
                 productInfo.setProductStatus(productInfoDto.getProductStatus());
+            }else{
+                productInfo.setProductStatus(0);
             }
         }
-
-        return productInfoRepository.saveAndFlush(productInfo);
+         productInfoRepository.saveAndFlush(productInfo);
+         return findOne(productId);
     }
 
     @Transactional
@@ -228,12 +253,24 @@ public class ProductInfoService {
         if (productInfoDto.getCategoryType() == 0) {
             Integer productStockSum = 0;
             product.setProductStatus(productInfoDto.getProductStatus());
-            product.setProductIcon(productInfoDto.getProductIcon());
+
             product.setCategoryType(productInfoDto.getCategoryType());
-            product.setProductStock(productInfoDto.getProductStock());
             product.setProductDescription(productInfoDto.getProductDescription());
             product.setProductPrice(productInfoDto.getProductPrice());
             product.setProductName(productInfoDto.getProductName());
+            if(productInfoDto.getProductStatus() != null){
+                product.setProductStatus(productInfoDto.getProductStatus());
+            }else{
+                product.setProductStatus(0);
+            }
+            productInfoRepository.save(product);
+            if(!productInfoDto.getProductIcons().isEmpty()){
+                for(ProductIcon productIcon : productInfoDto.getProductIcons()){
+                    productIcon.setProductInfo(product);
+                    product.getProductIcons().add(productIcon);
+                    productIconRepository.save(productIcon);
+                }
+            }
             if (!productInfoDto.getProductSizes().isEmpty()) {
                 for (ProductSizeStock productSizeStock : productInfoDto.getProductSizes()) {
                     productSizeStock.setProductInfo(product);
@@ -244,14 +281,26 @@ public class ProductInfoService {
                 product.setProductStock(productStockSum);
             }
         } else {
-            product.setProductIcon(productInfoDto.getProductIcon());
             product.setProductStock(productInfoDto.getProductStock());
             product.setCategoryType(productInfoDto.getCategoryType());
             product.setProductDescription(productInfoDto.getProductDescription());
             product.setProductName(productInfoDto.getProductName());
             product.setProductPrice(productInfoDto.getProductPrice());
-            product.setProductStatus(productInfoDto.getProductStatus());
+            if(productInfoDto.getProductStatus() != null){
+                product.setProductStatus(productInfoDto.getProductStatus());
+            }else{
+                product.setProductStatus(0);
+            }
+            productInfoRepository.save(product);
+            if(!productInfoDto.getProductIcons().isEmpty()){
+                for(ProductIcon productIcon : productInfoDto.getProductIcons()){
+                    productIcon.setProductInfo(product);
+                    product.getProductIcons().add(productIcon);
+                    productIconRepository.save(productIcon);
+                }
+            }
         }
-        return productInfoRepository.save(product);
+        productInfoRepository.save(product);
+        return findOne(product.getProductId());
     }
 }

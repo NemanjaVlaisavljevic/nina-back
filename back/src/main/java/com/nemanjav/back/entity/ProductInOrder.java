@@ -26,7 +26,11 @@ public class ProductInOrder {
         this.productId = productInfo.getProductId();
         this.categoryType = productInfo.getCategoryType();
         this.productDescription = productInfo.getProductDescription();
-        this.productIcon = productInfo.getProductIcon();
+        this.productIcon = productInfo.getProductIcons()
+                .stream()
+                .findFirst()
+                .map(ProductIcon::getProductIcon)
+                .get();
         this.productName = productInfo.getProductName();
         this.productPrice = productInfo.getProductPrice();
         this.productStock = productInfo.getProductStock();

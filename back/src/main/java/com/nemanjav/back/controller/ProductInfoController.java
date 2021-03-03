@@ -30,9 +30,20 @@ public class ProductInfoController {
         PageRequest request = PageRequest.of(page - 1, size);
         return productInfoService.findAllProducts(request);
     }
+      // ZA TESTIRANJE(radi)
+//    @GetMapping("/product/getSizes/{productId}")
+//    public ResponseEntity<Set<ProductSizeStock>> getCurrentProductSizesAndStock(@PathVariable Long productId){
+//        ProductInfo existingProductInfo = productInfoService.findOne(productId);
+//        if(existingProductInfo != null){
+//            return ResponseEntity.ok(existingProductInfo.getProductSizes());
+//        }else{
+//            return ResponseEntity.badRequest().build();
+//        }
+//    }
 
     @GetMapping("/product/{productId}")
     public ProductInfo getOneProduct(@PathVariable Long productId){
+        ProductInfo productInfo = productInfoService.findOne(productId);
         return productInfoService.findOne(productId);
     }
 

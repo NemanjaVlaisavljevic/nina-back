@@ -1,6 +1,5 @@
 package com.nemanjav.back.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nemanjav.back.enums.ProductSize;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -43,7 +42,8 @@ public class ProductInfo {
 
     private String productDescription;
 
-    private String productIcon;
+    @OneToMany(cascade = CascadeType.REMOVE , fetch = FetchType.LAZY , mappedBy = "productInfo")
+    private Set<ProductIcon> productIcons = new HashSet<>();
 
     /** 0: on-sale 1: off-sale */
     @ColumnDefault("0")
@@ -62,7 +62,6 @@ public class ProductInfo {
     private Date updateTime;
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY , mappedBy = "productInfo")
-    @JsonIgnore
     private Set<ProductSizeStock> productSizes = new HashSet<>();
 
 }

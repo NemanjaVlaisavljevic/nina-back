@@ -23,6 +23,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final UserService userService;
     private final EmailSender emailSender;
+    private final ProductSizeStockRepository productSizeStockRepository;
 
     public Cart getCart(User user){
         return user.getCart();
@@ -32,6 +33,12 @@ public class CartService {
     public void mergeLocalCart(Collection<ProductInOrder> products , User user){
         Cart currentUserCart = getCart(user);
         products.forEach(productInOrder -> {
+            if(productInOrder.getCategoryType() == 0){
+                ProductSizeStock productSizeStock = productSizeStockRepository.findProductSizeStock(productInOrder.getProductId() , productInOrder.getProductSize().toString());
+                if(productSizeStock != null){
+                    productInOrder.setProductStock(productSizeStock.getCurrentSizeStock());
+                }
+            }
             Set<ProductInOrder> currentProducts = currentUserCart.getProducts();
             Optional<ProductInOrder> existingProductSameSize = currentProducts
                     .stream()
