@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -60,11 +59,6 @@ public class ProductInfoController {
         productInfoService.deleteProduct(productId);
         return ResponseEntity.ok(new HttpResponse(HttpStatus.OK.value() , HttpStatus.OK
                 , "Succesfully deleted product with id : " + productId , new Date()));
-    }
-
-    @PostMapping("/admin/product/addImage/{productId}")
-    public ResponseEntity<Boolean> addImageToProduct(@PathVariable Long productId , @RequestParam("file") MultipartFile file) throws IOException {
-        return ResponseEntity.ok().body(productInfoService.saveImageToProduct(productId , file));
     }
 
 }

@@ -1,9 +1,11 @@
 package com.nemanjav.back.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nemanjav.back.enums.ProductSize;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,12 +16,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
+@EqualsAndHashCode
 public class ProductInfo {
 
     @Id
@@ -55,5 +60,9 @@ public class ProductInfo {
 
     @UpdateTimestamp
     private Date updateTime;
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY , mappedBy = "productInfo")
+    @JsonIgnore
+    private Set<ProductSizeStock> productSizes = new HashSet<>();
 
 }

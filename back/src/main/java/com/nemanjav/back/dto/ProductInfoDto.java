@@ -1,13 +1,14 @@
 package com.nemanjav.back.dto;
 
+import com.nemanjav.back.entity.ProductSizeStock;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.validation.constraints.Min;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,13 +21,15 @@ public class ProductInfoDto {
     @NotNull
     private BigDecimal productPrice;
 
-    @NotNull
-    @Min(0)
+    //@NotNull
+    //@Min(0)
     private Integer productStock;
 
     private String productIcon;
 
     private String productDescription;
+
+    private Set<ProductSizeStock> productSizes;
 
     @ColumnDefault("0")
     private Integer categoryType;

@@ -78,10 +78,14 @@ public class OrderService {
         for(ProductInOrder product : products){
             ProductInfo productInfo = productInfoRepository.findByProductId(product.getProductId());
             if(productInfo != null){
-                productInfoService.increaseStock(productInfo.getProductId() ,product.getCount());
+                if(product.getCategoryType() == 0){
+                    productInfoService.increaseStockForClothes(productInfo.getProductId() , product.getCount() , product.getProductSize());
+                }else {
+                    productInfoService.increaseStock(productInfo.getProductId(), product.getCount());
+                }
             }
         }
-        emailSender.sendCanceledOrder("ninamarkovic@gmail.com" , buildEmail(currentOrder.getOrderId()));
+        emailSender.sendCanceledOrder("nemanja.vlaisavljevic20@gmail.com" , buildEmail(currentOrder.getOrderId()));
 
         return orderRepository.findByOrderId(orderId);
     }

@@ -1,14 +1,8 @@
 package com.nemanjav.back.service;
 
 import com.nemanjav.back.email.EmailSender;
-import com.nemanjav.back.entity.Cart;
-import com.nemanjav.back.entity.OrderMain;
-import com.nemanjav.back.entity.ProductInOrder;
-import com.nemanjav.back.entity.User;
-import com.nemanjav.back.repository.CartRepository;
-import com.nemanjav.back.repository.OrderRepository;
-import com.nemanjav.back.repository.ProductInOrderRepository;
-import com.nemanjav.back.repository.UserRepository;
+import com.nemanjav.back.entity.*;
+import com.nemanjav.back.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +19,7 @@ public class CartService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ProductInOrderRepository productInOrderRepository;
+    private final ProductInfoRepository productInfoRepository;
     private final CartRepository cartRepository;
     private final UserService userService;
     private final EmailSender emailSender;
@@ -47,10 +42,20 @@ public class CartService {
             if(existingProductSameSize.isPresent()){
                 product = existingProductSameSize.get();
                 product.setCount(product.getCount() + productInOrder.getCount());
+                ProductInfo existingProductInfo = productInfoRepository.findByProductId(product.getProductId());
+                if(existingProductInfo != null){
+                    existingProductInfo.setProductSize(null);
+                    productInfoRepository.saveAndFlush(existingProductInfo);
+                }
             }else{
                 product = productInOrder;
                 product.setCart(currentUserCart);
                 currentUserCart.getProducts().add(product);
+                ProductInfo existingProductInfo = productInfoRepository.findByProductId(product.getProductId());
+                if(existingProductInfo != null){
+                    existingProductInfo.setProductSize(null);
+                    productInfoRepository.saveAndFlush(existingProductInfo);
+                }
             }
             productInOrderRepository.saveAndFlush(product);
         });
@@ -87,9 +92,17 @@ public class CartService {
     public void checkout(User user){
         OrderMain currentOrder = new OrderMain(user);
         orderRepository.save(currentOrder);
-        String products = "";
+        String products=
+                "<table width='100%' border='1' align='center'>"
+                        + "<tr align='center'>"
+                        + "<td><b>Product Name <b></td>"
+                        + "<td><b>Product Size<b></td>"
+                        + "<td><b>Product Count<b></td>"
+                        + "</tr>";
         for(ProductInOrder product : user.getCart().getProducts()){
-            products = products.concat(product.getProductName() + " -> " + product.getCount() + " : " + product.getProductSize() + "\n");
+            products = products + "<tr align='center'>" + "<td>" + product.getProductName() + "</td>"
+                                + "<td>" + product.getProductSize() + "</td>"
+                                + "<td>" + product.getCount() + "</td>";
         }
 
         user.getCart()
@@ -97,11 +110,15 @@ public class CartService {
                 .forEach(productInOrder -> {
                     productInOrder.setCart(null);
                     productInOrder.setOrderMain(currentOrder);
-                    productInfoService.decreaseStock(productInOrder.getProductId() , productInOrder.getCount());
+                    if(productInOrder.getCategoryType() == 0){
+                        productInfoService.decreaseStockForClothes(productInOrder.getProductId() , productInOrder.getCount() , productInOrder.getProductSize());
+                    }else{
+                        productInfoService.decreaseStock(productInOrder.getProductId() , productInOrder.getCount());
+                    }
                     productInOrderRepository.saveAndFlush(productInOrder);
                 });
 
-        emailSender.sendOrderDetails("ninamarkovic@gmail.com",buildEmail(currentOrder , products));
+        emailSender.sendOrderDetails("nemanja.vlaisavljevic20@gmail.com",buildEmail(currentOrder , products));
 
     }
 
