@@ -258,6 +258,7 @@ public class ProductInfoService {
             product.setProductDescription(productInfoDto.getProductDescription());
             product.setProductPrice(productInfoDto.getProductPrice());
             product.setProductName(productInfoDto.getProductName());
+            product.setSold(0);
             if(productInfoDto.getProductStatus() != null){
                 product.setProductStatus(productInfoDto.getProductStatus());
             }else{
@@ -286,6 +287,7 @@ public class ProductInfoService {
             product.setProductDescription(productInfoDto.getProductDescription());
             product.setProductName(productInfoDto.getProductName());
             product.setProductPrice(productInfoDto.getProductPrice());
+            product.setSold(0);
             if(productInfoDto.getProductStatus() != null){
                 product.setProductStatus(productInfoDto.getProductStatus());
             }else{

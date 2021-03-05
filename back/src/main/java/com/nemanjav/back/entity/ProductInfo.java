@@ -64,4 +64,7 @@ public class ProductInfo {
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY , mappedBy = "productInfo")
     private Set<ProductSizeStock> productSizes = new HashSet<>();
 
+    @ColumnDefault("0")
+    private Integer sold;
+
 }

@@ -112,6 +112,14 @@ public class CartService {
                                 + "<td>" + product.getCount() + "</td>";
         }
 
+        for(ProductInOrder product : user.getCart().getProducts()){
+            ProductInfo existingProductInfo = productInfoService.findOne(product.getProductId());
+            if(existingProductInfo != null){
+                existingProductInfo.setSold(product.getCount());
+                productInfoRepository.save(existingProductInfo);
+            }
+        }
+
         user.getCart()
                 .getProducts()
                 .forEach(productInOrder -> {
