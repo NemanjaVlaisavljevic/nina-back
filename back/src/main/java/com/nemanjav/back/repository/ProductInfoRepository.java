@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProductInfoRepository extends JpaRepository<ProductInfo , Long> {
     ProductInfo findByProductId(Long productId);
 
+    ProductInfo findByProductIdOrderByProductIconsIdAsc(Long productId);
+
     Page<ProductInfo> findAllByProductStatusOrderByProductIdAsc(Integer code, Pageable pageable);
 
     Page<ProductInfo> findAllByOrderByProductId(Pageable pageable);

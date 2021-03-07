@@ -199,91 +199,109 @@ public class Bootstrap implements CommandLineRunner {
             ProductIcon productIcon1 = new ProductIcon();
             productIcon1.setProductIcon("https://i.ebayimg.com/images/g/qgUAAOSwl2NgBdlv/s-l1600.jpg");
             productIcon1.setProductInfo(productInfo1);
+            productIcon1.setIconOrder(1);
             productInfo1.getProductIcons().add(productIcon1);
 
             ProductIcon productIcon2 = new ProductIcon();
             productIcon2.setProductIcon("https://i.ebayimg.com/images/g/2Q0AAOSwF2pgBdlv/s-l1600.jpg");
             productIcon2.setProductInfo(productInfo1);
+            productIcon2.setIconOrder(2);
             productInfo1.getProductIcons().add(productIcon2);
 
             ProductIcon productIcon3 = new ProductIcon();
             productIcon3.setProductIcon("https://i.ebayimg.com/images/g/GnIAAOSwm8Zd8yeL/s-l1600.jpg");
             productIcon3.setProductInfo(productInfo2);
+            productIcon3.setIconOrder(1);
             productInfo2.getProductIcons().add(productIcon3);
 
             ProductIcon productIcon4 = new ProductIcon();
             productIcon4.setProductIcon("https://i.ebayimg.com/images/g/w1IAAOSw6dtd8yeL/s-l1600.jpg");
             productIcon4.setProductInfo(productInfo2);
+            productIcon4.setIconOrder(2);
             productInfo2.getProductIcons().add(productIcon4);
 
             ProductIcon productIcon5 = new ProductIcon();
             productIcon5.setProductIcon("https://i.ebayimg.com/images/g/Hh0AAOSwI-BgHIIa/s-l1600.jpg");
             productIcon5.setProductInfo(productInfo3);
+            productIcon5.setIconOrder(1);
             productInfo3.getProductIcons().add(productIcon5);
 
             ProductIcon productIcon6 = new ProductIcon();
             productIcon6.setProductIcon("https://i.ebayimg.com/images/g/Hh0AAOSwI-BgHIIa/s-l1600.jpg");
             productIcon6.setProductInfo(productInfo3);
+            productIcon6.setIconOrder(2);
             productInfo3.getProductIcons().add(productIcon6);
 
             ProductIcon productIcon7 = new ProductIcon();
             productIcon7.setProductIcon("https://i.ebayimg.com/images/g/VrkAAOSw~tFgCB6p/s-l1600.jpg");
             productIcon7.setProductInfo(productInfo4);
+            productIcon7.setIconOrder(1);
             productInfo4.getProductIcons().add(productIcon7);
 
             ProductIcon productIcon8 = new ProductIcon();
             productIcon8.setProductIcon("https://i.ebayimg.com/images/g/VrkAAOSw~tFgCB6p/s-l1600.jpg");
             productIcon8.setProductInfo(productInfo4);
+            productIcon8.setIconOrder(2);
             productInfo4.getProductIcons().add(productIcon8);
 
             ProductIcon productIcon9 = new ProductIcon();
             productIcon9.setProductIcon("https://i.ebayimg.com/images/g/-4gAAOSwfKhgCpag/s-l1600.jpg");
             productIcon9.setProductInfo(productInfo5);
+            productIcon9.setIconOrder(1);
             productInfo5.getProductIcons().add(productIcon9);
 
             ProductIcon productIcon10 = new ProductIcon();
             productIcon10.setProductIcon("https://i.ebayimg.com/images/g/-4gAAOSwfKhgCpag/s-l1600.jpg");
             productIcon10.setProductInfo(productInfo5);
+            productIcon10.setIconOrder(2);
             productInfo5.getProductIcons().add(productIcon10);
 
             ProductIcon productIcon11 = new ProductIcon();
             productIcon11.setProductIcon("https://i.ebayimg.com/images/g/7NsAAOSwJkFd2Fql/s-l1600.jpg");
             productIcon11.setProductInfo(productInfo6);
+            productIcon11.setIconOrder(1);
             productInfo6.getProductIcons().add(productIcon11);
 
             ProductIcon productIcon12 = new ProductIcon();
             productIcon12.setProductIcon("https://i.ebayimg.com/images/g/7NsAAOSwJkFd2Fql/s-l1600.jpg");
             productIcon12.setProductInfo(productInfo6);
+            productIcon12.setIconOrder(2);
             productInfo6.getProductIcons().add(productIcon12);
 
             ProductIcon productIcon13 = new ProductIcon();
             productIcon13.setProductIcon("https://i.ebayimg.com/images/g/22AAAOSwBUlfVuVQ/s-l1600.jpg");
             productIcon13.setProductInfo(productInfo7);
+            productIcon13.setIconOrder(1);
             productInfo7.getProductIcons().add(productIcon13);
 
             ProductIcon productIcon14 = new ProductIcon();
             productIcon14.setProductIcon("https://i.ebayimg.com/images/g/22AAAOSwBUlfVuVQ/s-l1600.jpg");
             productIcon14.setProductInfo(productInfo7);
+            productIcon14.setIconOrder(2);
             productInfo7.getProductIcons().add(productIcon14);
 
             ProductIcon productIcon15 = new ProductIcon();
             productIcon15.setProductIcon("https://i.ebayimg.com/images/g/5SoAAOSw0dFcYROm/s-l1600.jpg");
             productIcon15.setProductInfo(productInfo8);
+            productIcon15.setIconOrder(1);
             productInfo8.getProductIcons().add(productIcon15);
 
             ProductIcon productIcon16 = new ProductIcon();
             productIcon16.setProductIcon("https://i.ebayimg.com/images/g/5SoAAOSw0dFcYROm/s-l1600.jpg");
             productIcon16.setProductInfo(productInfo8);
+            productIcon16.setIconOrder(2);
             productInfo8.getProductIcons().add(productIcon16);
 
             ProductIcon productIcon17 = new ProductIcon();
             productIcon17.setProductIcon("https://i.ebayimg.com/images/g/1NIAAOSwGUpcEn8z/s-l1600.jpg");
             productIcon17.setProductInfo(productInfo9);
+            productIcon17.setIconOrder(1);
             productInfo9.getProductIcons().add(productIcon17);
 
             ProductIcon productIcon18 = new ProductIcon();
             productIcon18.setProductIcon("https://i.ebayimg.com/images/g/1NIAAOSwGUpcEn8z/s-l1600.jpg");
             productIcon18.setProductInfo(productInfo9);
+            productIcon18.setIconOrder(2);
             productInfo9.getProductIcons().add(productIcon18);
 
             productIconRepository.save(productIcon1);

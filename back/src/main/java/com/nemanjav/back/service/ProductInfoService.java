@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -143,6 +145,8 @@ public class ProductInfoService {
     @Transactional
     public ProductInfo update(Long productId, ProductInfoDto productInfoDto) throws IOException {
         // if null throw exception
+        List<ProductSizeStock> listToDeleteSizeStock = new ArrayList<>();
+        List<ProductIcon> listToDeleteIcons = new ArrayList<>();
         ProductInfo productInfo = findOne(productId);
         int productStockSum = 0;
         if (productInfo == null) {
@@ -154,12 +158,22 @@ public class ProductInfoService {
         if (productInfo.getCategoryType() == 0) {
             if(!productInfo.getProductSizes().isEmpty()) {
                 for (ProductSizeStock productSizeStock : productInfo.getProductSizes()) {
-                    productSizeStockRepository.deleteProductSize(productInfo.getProductId());
+                    if(productSizeStock.getId() != null){
+                        productSizeStockRepository.deleteById(productSizeStock.getId());
+                        listToDeleteSizeStock.add(productSizeStock);
+                    }
+                }
+                for(ProductSizeStock productSizeStock : listToDeleteSizeStock){
+                    productInfo.getProductSizes().remove(productSizeStock);
                 }
             }
             if(!productInfo.getProductIcons().isEmpty()){
                 for(ProductIcon productIcon : productInfo.getProductIcons()){
-                    productIconRepository.deleteProductIcon(productInfo.getProductId());
+                        productIconRepository.deleteById(productIcon.getId());
+                        listToDeleteIcons.add(productIcon);
+                 }
+                for(ProductIcon productIcon : listToDeleteIcons){
+                    productInfo.getProductIcons().remove(productIcon);
                 }
             }
             if (productInfoDto.getCategoryType() != null) {
@@ -179,7 +193,6 @@ public class ProductInfoService {
             }else{
                 productInfo.setProductStatus(0);
             }
-
             if(!productInfoDto.getProductIcons().isEmpty()){
                 for(ProductIcon productIcon : productInfoDto.getProductIcons()){
                     productIcon.setProductInfo(productInfo);
@@ -200,7 +213,7 @@ public class ProductInfoService {
         } else {
             if(!productInfo.getProductIcons().isEmpty()){
                 for(ProductIcon productIcon : productInfo.getProductIcons()){
-                    productIconRepository.deleteProductIcon(productInfo.getProductId());
+                    productIconRepository.deleteById(productIcon.getId());
                 }
             }
             if(!productInfoDto.getProductIcons().isEmpty()){
@@ -231,8 +244,7 @@ public class ProductInfoService {
                 productInfo.setProductStatus(0);
             }
         }
-         productInfoRepository.saveAndFlush(productInfo);
-         return findOne(productId);
+        return productInfoRepository.saveAndFlush(productInfo);
     }
 
     @Transactional

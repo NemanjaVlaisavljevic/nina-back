@@ -5,9 +5,11 @@ import com.nemanjav.back.entity.ProductSizeStock;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.SortNatural;
 
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.SortedSet;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +22,8 @@ public class ProductInfoDto {
 
     private Integer productStock;
 
-    private Set<ProductIcon> productIcons;
+    @SortNatural
+    private SortedSet<ProductIcon> productIcons;
 
     private String productDescription;
 

@@ -42,6 +42,7 @@ public class ProductInfo {
 
     private String productDescription;
 
+    @OrderBy("iconOrder ASC")
     @OneToMany(cascade = CascadeType.REMOVE , fetch = FetchType.LAZY , mappedBy = "productInfo")
     private Set<ProductIcon> productIcons = new HashSet<>();
 

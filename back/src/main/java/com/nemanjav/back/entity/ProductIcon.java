@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(exclude="productInfo")
-public class ProductIcon {
+public class ProductIcon implements Comparable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +29,11 @@ public class ProductIcon {
     @JsonIgnore
     private ProductInfo productInfo;
 
+    private Integer iconOrder;
+
+    @Override
+    public int compareTo(Object object) {
+        ProductIcon productIcon = (ProductIcon) object;
+        return iconOrder - productIcon.iconOrder;
+    }
 }
